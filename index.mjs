@@ -22,17 +22,17 @@ function json(res, status, data) {
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://localhost:${PORT}`)
 
+  // Health check (no auth required — used by Docker HEALTHCHECK)
+  if (url.pathname === '/health') {
+    return json(res, 200, { ok: true })
+  }
+
   // Auth check
   if (API_KEY) {
     const auth = req.headers['authorization']
     if (auth !== `Bearer ${API_KEY}`) {
       return json(res, 401, { error: 'Unauthorized' })
     }
-  }
-
-  // Health check
-  if (url.pathname === '/health') {
-    return json(res, 200, { ok: true })
   }
 
   // Fetch Instagram profile data
