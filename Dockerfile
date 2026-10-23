@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:24.22.1-alpine
 RUN apk add --no-cache curl
 WORKDIR /app
 COPY package.json index.mjs ./
